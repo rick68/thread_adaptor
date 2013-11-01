@@ -16,11 +16,7 @@ int main(void)
 {
 	const char* mac = "Hello world";
 
-	typedef struct thread_adaptor_data data_type;
-	typedef thread_adaptor<data_type> thread_adaptor_type;
-
-	thread_adaptor_type& adaptor =
-		*new thread_adaptor_type(thread_process);
+	THREAD_ADAPTOR(adaptor, thread_adaptor_data, thread_process);
 	adaptor.buf_ = mac;
 	adaptor();
 

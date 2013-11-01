@@ -35,4 +35,9 @@ public:
 		__ptr->~thread_adaptor(); }				\
 	/**/
 
+#define THREAD_ADAPTOR(name, datatype, processname) \
+	thread_adaptor<datatype>&  name =			\
+		*new thread_adaptor<datatype>(processname);	\
+	/**/
+
 #endif /* THREAD_ADAPTOR_HPP */
