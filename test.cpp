@@ -10,21 +10,7 @@
 
 #include "thread_adaptor.hpp"
 #include "thread_adaptor_data.hpp"
-
-template <typename T>
-void thread_process(thread_adaptor<T>*& ptr)
-{
-	typedef T data_type;
-
-	data_type& data = *static_cast<data_type*>(ptr);
-
-	std::cout << "In thread_process ..." << std::endl;
-	std::cout << "data.buf_ = ["
-			  << data.buf_ << ']' << std::endl;
-	::usleep(1000 * 1000);
-
-	ptr->~thread_adaptor();
-}
+#include "thread_adaptor_process.hpp"
 
 int main(void)
 {
@@ -38,7 +24,8 @@ int main(void)
 	adaptor.buf_ = mac;
 	adaptor();
 
-	usleep(2000 * 1000);
+	::usleep(2000 * 1000);
+
 	std::cout << "success main." << std::endl;
 
 	return EXIT_SUCCESS;

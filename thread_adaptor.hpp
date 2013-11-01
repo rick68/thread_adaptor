@@ -29,7 +29,19 @@ public:
 #endif
 	}
 
-	void operator()(void){ thread_.join(); }
+	void operator()(void) { thread_.join(); }
 };
 
-#endif // THREAD_ADAPTOR_HPP
+#define THREAD_ADAPTOR_PROCESS_BEGIN(processname, dataname)		\
+	template <typename T>						\
+	void processname(thread_adaptor<T>*& __ptr)			\
+	{								\
+		typedef T data_type;					\
+		data_type& dataname = *static_cast<data_type*>(__ptr);	\
+	/**/
+
+#define THREAD_ADAPTOR_PROCESS_END					\
+		__ptr->~thread_adaptor(); }				\
+	/**/
+
+#endif /* THREAD_ADAPTOR_HPP */
