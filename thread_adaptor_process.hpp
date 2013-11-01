@@ -5,10 +5,8 @@
 
 THREAD_ADAPTOR_PROCESS_BEGIN(thread_process, data)
 {
-	std::cout << "In thread_process ..." << std::endl;
-	std::cout << "data.buf_ = ["
-			  << data.buf_ << ']' << std::endl;
-	::usleep(1000 * 1000);
+    std::cout << "In thread_process ..." << std::endl;
+    std::cout << "data.buf_ = [" << data.buf_ << ']' << std::endl;
 }
 THREAD_ADAPTOR_PROCESS_END
 

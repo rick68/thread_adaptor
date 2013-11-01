@@ -14,15 +14,16 @@
 
 int main(void)
 {
-	const char* mac = "Hello world";
+    THREAD_ADAPTOR(thread_adaptor_data, thread_process, adaptor)
+    {
+	adaptor.buf_ = "Hello world";
+    }
 
-	THREAD_ADAPTOR(adaptor, thread_adaptor_data, thread_process);
-	adaptor.buf_ = mac;
-	adaptor();
+    thread_adaptor_data data;
+    data.buf_ = "HELLO WORLD!";
+    THREAD_ADAPTOR_WITH_DATAOBJ(thread_process, data);
 
-	::usleep(2000 * 1000);
+    std::cout << "success main." << std::endl;
 
-	std::cout << "success main." << std::endl;
-
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

@@ -1,43 +1,57 @@
 #ifndef THREAD_ADAPTOR_HPP
 #define THREAD_ADAPTOR_HPP
 
+#include <cstddef>
+
 template <typename DataType> class thread_adaptor;
 
 template <typename DataType>
 class thread_adaptor : public DataType
 {
 public:
-	typedef DataType data_type;
-	typedef thread_adaptor<data_type> this_type;
-	typedef void (&thread_process_type)(this_type*& ptr);
+    typedef DataType data_type;
+    typedef thread_adaptor<data_type> this_type;
+    typedef void (&thread_process_type)(this_type*& ptr);
 
 private:
-	boost::shared_ptr<this_type> this_ptr_;
-	boost::thread thread_;
+    boost::shared_ptr<this_type> this_ptr_;
+    boost::thread thread_;
+    bool flag_;
 
 public:
-	thread_adaptor(thread_process_type& f)
-	: this_ptr_(this), thread_(f, this)
-	{}
+    thread_adaptor(thread_process_type& f,
+		   const data_type& data = data_type())
+    : data_type(data), this_ptr_(this), thread_(f, this), flag_(true)
+    {}
 
-	void operator()(void) { thread_.join(); }
+public:
+    void operator()(void) { thread_.join(); flag_ = false; }
+
+    operator bool(void) const { return flag_ ? true : false; }
 };
 
-#define THREAD_ADAPTOR_PROCESS_BEGIN(processname, dataname)		\
-	template <typename T>						\
-	void processname(thread_adaptor<T>*& __ptr)			\
-	{								\
-		typedef T data_type;					\
-		data_type& dataname = *static_cast<data_type*>(__ptr);	\
-	/**/
+#define THREAD_ADAPTOR_PROCESS_BEGIN(processname, dataname)	\
+    template <typename T>					\
+    void processname(thread_adaptor<T>*& __ptr)			\
+    {								\
+	typedef T data_type;					\
+	data_type& dataname = *static_cast<data_type*>(__ptr);	\
+    /**/
 
-#define THREAD_ADAPTOR_PROCESS_END					\
-		__ptr->~thread_adaptor(); }				\
-	/**/
+#define THREAD_ADAPTOR_PROCESS_END				\
+    __ptr->~thread_adaptor(); }					\
+    /**/
 
-#define THREAD_ADAPTOR(name, datatype, processname) \
-	thread_adaptor<datatype>&  name =			\
-		*new thread_adaptor<datatype>(processname);	\
-	/**/
+#define THREAD_ADAPTOR(datatype, processname, name)		\
+    for (thread_adaptor<datatype>& name =			\
+	 *new thread_adaptor<datatype>(processname);		\
+	 name; name())						\
+    /**/
+
+#define THREAD_ADAPTOR_WITH_DATAOBJ(processname, dataobj)			\
+    for (thread_adaptor<typeof(dataobj)>& __thread_adaptor_with_dataobj =	\
+	 *new thread_adaptor<typeof(dataobj)>(processname, data);		\
+	  __thread_adaptor_with_dataobj; __thread_adaptor_with_dataobj()){}	\
+    /**/
 
 #endif /* THREAD_ADAPTOR_HPP */
