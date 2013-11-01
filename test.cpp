@@ -14,9 +14,9 @@
 
 int main(void)
 {
-    THREAD_ADAPTOR(thread_adaptor_data, thread_process, adaptor)
+    THREAD_ADAPTOR(thread_adaptor_data, thread_process)
     {
-	adaptor.buf_ = "Hello world";
+	THREAD_ADAPTOR_DATA_MEMBER(buf_) = "Hello world";
     }
 
     thread_adaptor_data data;

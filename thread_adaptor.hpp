@@ -42,10 +42,13 @@ public:
     __ptr->~thread_adaptor(); }					\
     /**/
 
-#define THREAD_ADAPTOR(datatype, processname, name)		\
-    for (thread_adaptor<datatype>& name =			\
+#define THREAD_ADAPTOR(datatype, processname)			\
+    for (thread_adaptor<datatype>& __thread_adaptor =		\
 	 *new thread_adaptor<datatype>(processname);		\
-	 name; name())						\
+	 __thread_adaptor; __thread_adaptor())			\
+    /**/
+
+#define THREAD_ADAPTOR_DATA_MEMBER(name) __thread_adaptor.name
     /**/
 
 #define THREAD_ADAPTOR_WITH_DATAOBJ(processname, dataobj)			\
