@@ -20,15 +20,6 @@ public:
 	: this_ptr_(this), thread_(f, this)
 	{}
 
-	~thread_adaptor()
-	{
-#ifdef DEBUG
-		std::cout << "this_ptr_.use_cout = ["
-				  << this_ptr_.use_count() << ']'
-				  << std::endl;
-#endif
-	}
-
 	void operator()(void) { thread_.join(); }
 };
 
