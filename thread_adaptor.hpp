@@ -50,8 +50,8 @@ public:
 
 #define THREAD_ADAPTOR_WITH_DATAOBJ(processname, dataobj)			\
     for (thread_adaptor<typeof(dataobj)>& __thread_adaptor_with_dataobj =	\
-	 *new thread_adaptor<typeof(dataobj)>(processname, data);		\
-	  __thread_adaptor_with_dataobj; __thread_adaptor_with_dataobj()){}	\
+	 *new thread_adaptor<typeof(dataobj)>(processname, dataobj);		\
+	  __thread_adaptor_with_dataobj; __thread_adaptor_with_dataobj()) {}	\
     /**/
 
 #endif /* THREAD_ADAPTOR_HPP */
