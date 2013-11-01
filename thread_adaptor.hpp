@@ -1,18 +1,18 @@
 #ifndef THREAD_ADAPTOR_HPP
 #define THREAD_ADAPTOR_HPP
 
-template <typename data_type> class thread_adaptor;
+template <typename DataType> class thread_adaptor;
 
-template <typename data_type>
-class thread_adaptor : public data_type
+template <typename DataType>
+class thread_adaptor : public DataType
 {
 public:
-	typedef data_type data_type;
-	typedef thread_adaptor<data_type> _this;
-	typedef void (&thread_process_type)(_this*& ptr);
+	typedef DataType data_type;
+	typedef thread_adaptor<data_type> this_type;
+	typedef void (&thread_process_type)(this_type*& ptr);
 
 private:
-	boost::shared_ptr<_this> this_ptr_;
+	boost::shared_ptr<this_type> this_ptr_;
 	boost::thread thread_;
 
 public:
@@ -29,7 +29,7 @@ public:
 #endif
 	}
 
-	void join(void) { thread_.join(); }
+	void operator()(void){ thread_.join(); }
 };
 
 #endif // THREAD_ADAPTOR_HPP
