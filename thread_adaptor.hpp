@@ -12,10 +12,11 @@
 #define THREAD_ADAPTOR_HPP
 
 #include <boost/thread/thread.hpp>
+#include <boost/noncopyable.hpp>
 #include <boost/assert.hpp>
 
 template <typename DataType>
-class thread_adaptor : public DataType
+class thread_adaptor : public DataType, public boost::noncopyable
 {
 public:
     typedef DataType data_type;
