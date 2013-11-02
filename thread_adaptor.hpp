@@ -3,8 +3,6 @@
 
 #include <cstddef>
 
-template <typename DataType> class thread_adaptor;
-
 template <typename DataType>
 class thread_adaptor : public DataType
 {
