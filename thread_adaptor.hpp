@@ -1,7 +1,8 @@
 #ifndef THREAD_ADAPTOR_HPP
 #define THREAD_ADAPTOR_HPP
 
-#include <cstddef>
+#include <boost/thread/thread.hpp>
+#include <boost/assert.hpp>
 
 template <typename DataType>
 class thread_adaptor : public DataType
@@ -12,24 +13,22 @@ public:
     typedef void (&thread_process_type)(this_type*& ptr);
 
 private:
-    boost::shared_ptr<this_type> this_ptr_;
     boost::thread thread_;
-    bool flag_;
 
 public:
     thread_adaptor(thread_process_type& f,
 		   const data_type& data = data_type())
-    : data_type(data), this_ptr_(this), thread_(f, this), flag_(true)
+    : data_type(data), thread_(f, this)
     {}
 
 public:
-    void operator()(void)
-    {
-	thread_.join();
-	flag_ = false;
-    }
+    bool joinable(void) const { return thread_.joinable(); }
 
-    operator bool(void) const { return flag_ ? true : false; }
+    void join(void)
+    {
+	BOOST_ASSERT(joinable());
+	thread_.join();
+    }
 };
 
 #define THREAD_ADAPTOR_PROCESS_BEGIN(processname, dataname)	\
@@ -46,7 +45,7 @@ public:
 #define THREAD_ADAPTOR(datatype, processname)			\
     for (thread_adaptor<datatype>& __thread_adaptor =		\
 	 *new thread_adaptor<datatype>(processname);		\
-	 __thread_adaptor; __thread_adaptor())			\
+	 __thread_adaptor.joinable(); __thread_adaptor.join())	\
     /**/
 
 #define THREAD_ADAPTOR_DATA_MEMBER(name) __thread_adaptor.name	\
@@ -55,7 +54,8 @@ public:
 #define THREAD_ADAPTOR_WITH_DATAOBJ(processname, dataobj)			\
     for (thread_adaptor<typeof(dataobj)>& __thread_adaptor_with_dataobj =	\
 	 *new thread_adaptor<typeof(dataobj)>(processname, dataobj);		\
-	  __thread_adaptor_with_dataobj; __thread_adaptor_with_dataobj()) {}	\
+	  __thread_adaptor_with_dataobj.joinable();				\
+	  __thread_adaptor_with_dataobj.join()) {}				\
     /**/
 
 #endif /* THREAD_ADAPTOR_HPP */
