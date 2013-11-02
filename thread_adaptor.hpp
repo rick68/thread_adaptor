@@ -36,8 +36,7 @@ public:
 	data_type& dataname = *static_cast<data_type*>(__ptr);	\
     /**/
 
-#define THREAD_ADAPTOR_PROCESS_END				\
-    __ptr->~thread_adaptor(); }					\
+#define THREAD_ADAPTOR_PROCESS_END __ptr->~thread_adaptor(); }	\
     /**/
 
 #define THREAD_ADAPTOR(datatype, processname)			\
