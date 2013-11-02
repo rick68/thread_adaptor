@@ -1,9 +1,6 @@
 #include <iostream>
 #include <string>
 
-#include <boost/smart_ptr.hpp>
-#include <boost/thread/thread.hpp>
-
 #include <cstdlib>
 
 #include <unistd.h>
@@ -16,7 +13,7 @@ int main(void)
 {
     THREAD_ADAPTOR(thread_adaptor_data, thread_process)
     {
-	THREAD_ADAPTOR_DATA_MEMBER(buf_) = "Hello world";
+        THREAD_ADAPTOR_DATA_MEMBER(buf_) = "Hello world";
     }
 
     thread_adaptor_data data;
