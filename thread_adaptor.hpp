@@ -52,7 +52,7 @@ public:
     /**/
 
 #define THREAD_ADAPTOR_PROCESS_END                              \
-        __thread_adaptor_ptr->~thread_adaptor();                \
+        delete __thread_adaptor_ptr;                            \
     }                                                           \
     /**/
 
