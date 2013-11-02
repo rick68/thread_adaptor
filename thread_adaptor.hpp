@@ -23,7 +23,11 @@ public:
     {}
 
 public:
-    void operator()(void) { thread_.join(); flag_ = false; }
+    void operator()(void)
+    {
+	thread_.join();
+	flag_ = false;
+    }
 
     operator bool(void) const { return flag_ ? true : false; }
 };
@@ -45,7 +49,7 @@ public:
 	 __thread_adaptor; __thread_adaptor())			\
     /**/
 
-#define THREAD_ADAPTOR_DATA_MEMBER(name) __thread_adaptor.name
+#define THREAD_ADAPTOR_DATA_MEMBER(name) __thread_adaptor.name	\
     /**/
 
 #define THREAD_ADAPTOR_WITH_DATAOBJ(processname, dataobj)			\
