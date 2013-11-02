@@ -3,8 +3,6 @@
 
 #include <cstdlib>
 
-#include <unistd.h>
-
 #include "thread_adaptor.hpp"
 #include "thread_adaptor_data.hpp"
 #include "thread_adaptor_process.hpp"
