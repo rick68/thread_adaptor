@@ -13,9 +13,12 @@
 
 #include <string>
 
+#include <cstddef>
+
 // user defined
 struct thread_adaptor_data
 {
+    std::size_t count_;
     std::string buf_;
 };
 

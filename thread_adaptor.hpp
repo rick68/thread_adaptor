@@ -16,8 +16,7 @@
 #include <boost/assert.hpp>
 
 template <typename DataType>
-class thread_adaptor : public DataType, public boost::noncopyable
-{
+class thread_adaptor : public DataType, public boost::noncopyable{
 public:
     typedef DataType data_type;
     typedef thread_adaptor<data_type> this_type;
@@ -28,7 +27,7 @@ private:
 
 public:
     thread_adaptor(thread_process_type& f,
-                   const data_type& data = data_type())
+                   const data_type data = data_type())
     : data_type(data), thread_(f, this)
     {}
 

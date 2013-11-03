@@ -9,14 +9,16 @@
 
 int main(void)
 {
-    THREAD_ADAPTOR(thread_adaptor_data, thread_process)
+    THREAD_ADAPTOR(thread_adaptor_data, thread_process1)
     {
-        THREAD_ADAPTOR_DATA_MEMBER(buf_) = "Hello world";
+        THREAD_ADAPTOR_DATA_MEMBER(count_) = 0;
+        THREAD_ADAPTOR_DATA_MEMBER(buf_) = "";
     }
 
     thread_adaptor_data data;
-    data.buf_ = "HELLO WORLD!";
-    THREAD_ADAPTOR_WITH_DATAOBJ(thread_process, data);
+    data.count_ = 0;
+    data.buf_ = "";
+    THREAD_ADAPTOR_WITH_DATAOBJ(thread_process2, data);
 
     std::cout << "success main." << std::endl;
 
