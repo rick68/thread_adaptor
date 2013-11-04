@@ -25,7 +25,8 @@ namespace detail
         typedef Derived derived_type;
         typedef boost::shared_ptr<derived_type> pointer;
 
-        explicit thread_adaptor_base(void)
+    public:
+        thread_adaptor_base(void)
           : ptr_() {}
 
         void __join(const pointer& ptr)
@@ -54,7 +55,6 @@ namespace detail
     protected:
         pointer ptr_;
     };
-
 } // namespace detail
 
 template <
@@ -77,6 +77,11 @@ public:
                    const data_type data = data_type())
       : base_type(), thread_(f, this), data_type(data)
     {}
+
+    ~thread_adaptor()
+    {
+        std::cout << "this = [" << this << ']' << std::endl;
+    }
 
 public:
     bool joinable(void) const
@@ -105,6 +110,28 @@ private:
     boost::thread thread_;
 };
 
+namespace detail
+{
+    template <typename DataType>
+    struct thread_adaptor_destroyer
+    {
+    public:
+        typedef DataType data_type;
+        typedef thread_adaptor<data_type> thread_adaptor_type;
+
+    public:
+        thread_adaptor_destroyer(thread_adaptor_type*& ptr)
+          : ptr_(ptr)
+        {}
+
+        ~thread_adaptor_destroyer(void)
+          { ptr_->__destroy(); }
+
+    private:
+        thread_adaptor_type*& ptr_;
+    };
+} // namespace detail
+
 #define THREAD_ADAPTOR_PROCESS_BEGIN(processname, dataname)                 \
     template <typename T>                                                   \
     void processname(thread_adaptor<T>*& __thread_adaptor_ptr)              \
@@ -112,10 +139,11 @@ private:
         typedef T data_type;                                                \
         data_type& dataname =                                               \
             *static_cast<data_type*>(__thread_adaptor_ptr);                 \
+        detail::thread_adaptor_destroyer<data_type>                         \
+            __destroyer(__thread_adaptor_ptr);                              \
     /**/
 
 #define THREAD_ADAPTOR_PROCESS_END                                          \
-        __thread_adaptor_ptr->__destroy();                                  \
     }                                                                       \
     /**/
 
