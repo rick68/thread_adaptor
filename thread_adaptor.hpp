@@ -78,11 +78,6 @@ public:
       : base_type(), thread_(f, this), data_type(data)
     {}
 
-    ~thread_adaptor()
-    {
-        std::cout << "this = [" << this << ']' << std::endl;
-    }
-
 public:
     bool joinable(void) const
       { return thread_.joinable(); }
