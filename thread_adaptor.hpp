@@ -51,6 +51,7 @@ namespace detail
             ptr_.reset();        
         }
 
+    protected:
         pointer ptr_;
     };
 
