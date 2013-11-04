@@ -40,6 +40,7 @@ namespace detail
 
         void __detach(const pointer& ptr)
         {
+            BOOST_ASSERT(ptr);
             BOOST_ASSERT(!ptr_);
             ptr_ = ptr;
             derived_type& derived = *static_cast<derived_type*>(this);
@@ -99,7 +100,7 @@ public:
 
 public:
     operator bool(void) const
-      { return !base_type::ptr_.get(); }
+      { return !base_type::ptr_; }
 
 private:
     boost::thread thread_;
