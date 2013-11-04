@@ -29,6 +29,7 @@ namespace detail
         thread_adaptor_base(void)
           : ptr_() {}
 
+    public:
         void __join(const pointer& ptr)
         {
             BOOST_ASSERT(ptr);
