@@ -15,7 +15,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/assert.hpp>
 
-#include "detail/thread_adaptor_base.hpp"
+#include "detail/base.hpp"
 #include "detail/destroyer.hpp"
 
 template <
