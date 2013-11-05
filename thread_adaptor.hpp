@@ -181,4 +181,4 @@ namespace detail
     {}                                                                      \
     /**/
 
-#endif /* THREAD_ADAPTOR_HPP */
+#endif // THREAD_ADAPTOR_HPP
