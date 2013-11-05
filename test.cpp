@@ -5,10 +5,7 @@
 
 #include <boost/thread/mutex.hpp>
 
-#include "thread_adaptor/thread_adaptor.hpp"
-#include "thread_adaptor/process.hpp"
-#include "thread_adaptor/join.hpp"
-#include "thread_adaptor/detach.hpp"
+#include "thread_adaptor.hpp"
 
 // user defined
 struct thread_adaptor_data
