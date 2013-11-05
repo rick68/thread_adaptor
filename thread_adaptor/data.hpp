@@ -1,6 +1,6 @@
 //
-// thread_adaptor_data.hpp
-// ~~~~~~~~~~~~~~~~~~~~~~~
+// data.hpp
+// ~~~~~~~~
 //
 // Copyright (c) 2013 Rick Yang (rick68 at gmail dot com)
 //
@@ -11,15 +11,7 @@
 #ifndef THREAD_ADAPTOR_DATA_HPP
 #define THREAD_ADAPTOR_DATA_HPP
 
-#include <string>
-
-#include <cstddef>
-
-// user defined
-struct thread_adaptor_data
-{
-    std::size_t count_;
-    std::string buf_;
-};
+#define THREAD_ADAPTOR_DATA_MEMBER(name) __thread_adaptor_ptr->name         \
+    /**/
 
 #endif // THREAD_ADAPTOR_DATA_HPP
